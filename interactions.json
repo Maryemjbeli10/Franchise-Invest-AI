@@ -1,0 +1,17 @@
+{
+  "investor_001": {
+    "TUTTI PIZZA": 24,
+    "SUBWAY": 6,
+    "WENDY'S": 36
+  },
+  "investor_002": {
+    "TUTTI PIZZA": 48,
+    "WENDY'S": 18,
+    "SUBWAY": 30
+  },
+  "investor_003": {
+    "TUTTI PIZZA": 30,
+    "SUBWAY": 18,
+    "WENDY'S": 6
+  }
+}
