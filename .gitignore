@@ -1,5 +1,3 @@
-venv/
-mlruns/
-*.pkl
+
 __pycache__/
 .vscode/
