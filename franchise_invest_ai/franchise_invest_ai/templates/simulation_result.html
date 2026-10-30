@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Résultat Simulation - {{ simulation.franchise_name }}{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-10">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h1 class="text-3xl font-bold mb-2"><i class="fas fa-chart-line mr-2"></i>Résultat de la simulation</h1>
+        <p class="text-blue-100">{{ simulation.franchise_name }} — {{ simulation.location }}</p>
+    </div>
+</section>
+
+<section class="py-10 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+        
+        <!-- Carte principale: CA prédit -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-6 text-center">
+            <p class="text-gray-500 mb-2">Chiffre d'affaires potentiel à 2 ans</p>
+            <p class="text-5xl font-bold text-blue-600 mb-2">{{ simulation.ca_annee_2|floatformat:0 }} €</p>
+            <p class="text-gray-400 text-sm">prédit par notre IA</p>
+        </div>
+
+        <!-- Métriques -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white rounded-2xl shadow p-6 text-center">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-percentage text-green-600 text-xl"></i>
+                </div>
+                <p class="text-gray-500 text-sm">ROI estimé</p>
+                <p class="text-2xl font-bold text-gray-900">{{ roi }}x</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow p-6 text-center">
+                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-calendar-alt text-purple-600 text-xl"></i>
+                </div>
+                <p class="text-gray-500 text-sm">Rentabilité</p>
+                <p class="text-2xl font-bold text-gray-900">{{ simulation.rentabilite_mois }} mois</p>
+                <p class="text-xs text-gray-400">({{ rentabilite_annee }} ans)</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow p-6 text-center">
+                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-trophy text-yellow-600 text-xl"></i>
+                </div>
+                <p class="text-gray-500 text-sm">Probabilité de succès</p>
+                <p class="text-2xl font-bold 
+                    {% if simulation.probabilite_succes >= 70 %}text-green-600
+                    {% elif simulation.probabilite_succes >= 50 %}text-yellow-600
+                    {% else %}text-red-600{% endif %}">
+                    {{ simulation.probabilite_succes }}%
+                </p>
+            </div>
+        </div>
+
+        <!-- Barre de progression -->
+        <div class="bg-white rounded-2xl shadow p-6 mb-6">
+            <div class="flex justify-between mb-2">
+                <span class="text-sm font-medium text-gray-700">Probabilité de succès</span>
+                <span class="text-sm font-bold text-gray-900">{{ simulation.probabilite_succes }}%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+                <div class="bg-{{ progress_color }}-500 h-4 rounded-full transition-all" 
+                     style="width: {{ simulation.probabilite_succes }}%"></div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+                {% if simulation.probabilite_succes >= 70 %}
+                    <i class="fas fa-check-circle text-green-500 mr-1"></i> Excellent potentiel d'investissement
+                {% elif simulation.probabilite_succes >= 50 %}
+                    <i class="fas fa-exclamation-circle text-yellow-500 mr-1"></i> Potentiel modéré, analyse approfondie recommandée
+                {% else %}
+                    <i class="fas fa-times-circle text-red-500 mr-1"></i> Risque élevé, réfléchissez bien
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Détails -->
+        <div class="bg-white rounded-2xl shadow p-6 mb-6">
+            <h3 class="font-bold text-gray-800 mb-4"><i class="fas fa-info-circle mr-2 text-blue-500"></i>Détails de la simulation</h3>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-500">Budget</span>
+                    <span class="font-medium">{{ simulation.budget|floatformat:0 }} €</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-500">Investissement global</span>
+                    <span class="font-medium">{{ simulation.investissement_global|floatformat:0 }} €</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-500">Apport personnel</span>
+                    <span class="font-medium">{{ simulation.apport_personnel|floatformat:0 }} €</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-500">CA mensuel estimé</span>
+                    <span class="font-medium">{{ ca_mensuel|floatformat:0 }} €</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-500">Localisation</span>
+                    <span class="font-medium">{{ simulation.location }}</span>
+                </div>
+                <div class="flex justify-between py-2 border-b">
+                    <span class="text-gray-500">Cuisine</span>
+                    <span class="font-medium">{{ simulation.cuisine|default:"Non spécifié" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4">
+            <a href="{% url 'simulation' %}" class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-center transition">
+                <i class="fas fa-redo mr-2"></i>Nouvelle simulation
+            </a>
+            <a href="{% url 'investisseur_dashboard' %}" class="flex-1 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-xl font-semibold text-center transition">
+                <i class="fas fa-arrow-left mr-2"></i>Retour au dashboard
+            </a>
+        </div>
+        
+    </div>
+</section>
+{% endblock %}

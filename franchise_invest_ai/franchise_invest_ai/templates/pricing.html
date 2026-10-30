@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+
+{% block title %}Tarifs - Franchise Invest AI{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-accent-500 to-accent-600 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Nos Tarifs</h1>
+        <p class="text-xl text-accent-100 max-w-3xl mx-auto">
+            Des offres adaptées à tous les profils d'investisseurs, de la découverte à l'accompagnement complet.
+        </p>
+    </div>
+</section>
+
+<!-- Pricing Cards -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Starter Plan -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Découverte</h3>
+                    <p class="text-gray-500 mb-6">Pour découvrir la plateforme</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">Gratuit</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Profil investisseur
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            5 recommandations AI
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            1 simulation gratuite
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Accès aux fiches franchises
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-times-circle mr-3"></i>
+                            <span class="line-through">Rapports de viabilité</span>
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-times-circle mr-3"></i>
+                            <span class="line-through">Support prioritaire</span>
+                        </li>
+                    </ul>
+                    <a href="{% url 'register' %}" class="block w-full text-center py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-primary-600 hover:text-primary-600 transition">
+                        Commencer gratuitement
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Pro Plan -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-primary-500 relative transform scale-105">
+                <div class="absolute top-0 left-0 right-0 bg-primary-600 text-white text-center py-2 text-sm font-semibold">
+                    LE PLUS POPULAIRE
+                </div>
+                <div class="p-8 pt-12">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Investisseur</h3>
+                    <p class="text-gray-500 mb-6">Pour les investisseurs actifs</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">49€</span>
+                        <span class="text-gray-500">/mois</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Tout de l'offre Découverte
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Recommandations illimitées
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            10 simulations/mois
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            3 rapports de viabilité
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Support email
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-times-circle mr-3"></i>
+                            <span class="line-through">Conseiller dédié</span>
+                        </li>
+                    </ul>
+                    <a href="{% url 'register' %}" class="block w-full text-center py-3 bg-primary-600 text-white rounded-xl font-semibold hover:bg-primary-700 transition">
+                        Choisir cet abonnement
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Enterprise Plan -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="p-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Expert</h3>
+                    <p class="text-gray-500 mb-6">Pour les investisseurs expérimentés</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">149€</span>
+                        <span class="text-gray-500">/mois</span>
+                    </div>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Tout de l'offre Investisseur
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Simulations illimitées
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Rapports illimités
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Conseiller dédié
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Support prioritaire 24/7
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            API d'accès aux données
+                        </li>
+                    </ul>
+                    <a href="{% url 'contact' %}" class="block w-full text-center py-3 border-2 border-primary-600 text-primary-600 rounded-xl font-semibold hover:bg-primary-600 hover:text-white transition">
+                        Nous contacter
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Comparison -->
+<section class="py-20 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Comparaison des fonctionnalités</h2>
+            <p class="text-xl text-gray-600">Trouvez l'offre qui correspond le mieux à vos besoins.</p>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b-2 border-gray-200">
+                        <th class="text-left py-4 px-4 font-semibold text-gray-900">Fonctionnalité</th>
+                        <th class="text-center py-4 px-4 font-semibold text-gray-900">Découverte</th>
+                        <th class="text-center py-4 px-4 font-semibold text-primary-600">Investisseur</th>
+                        <th class="text-center py-4 px-4 font-semibold text-gray-900">Expert</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4 px-4 text-gray-700">Profil investisseur</td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4 px-4 text-gray-700">Recommandations AI</td>
+                        <td class="text-center py-4 px-4 text-gray-500">5</td>
+                        <td class="text-center py-4 px-4 text-primary-600 font-semibold">Illimité</td>
+                        <td class="text-center py-4 px-4 text-primary-600 font-semibold">Illimité</td>
+                    </tr>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4 px-4 text-gray-700">Simulations</td>
+                        <td class="text-center py-4 px-4 text-gray-500">1</td>
+                        <td class="text-center py-4 px-4 text-primary-600 font-semibold">10/mois</td>
+                        <td class="text-center py-4 px-4 text-primary-600 font-semibold">Illimité</td>
+                    </tr>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4 px-4 text-gray-700">Rapports de viabilité</td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4 text-gray-500">3</td>
+                        <td class="text-center py-4 px-4 text-primary-600 font-semibold">Illimité</td>
+                    </tr>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4 px-4 text-gray-700">Support email</td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4 px-4 text-gray-700">Conseiller dédié</td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                    <tr class="border-b border-gray-100">
+                        <td class="py-4 px-4 text-gray-700">Support 24/7</td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="py-4 px-4 text-gray-700">API d'accès</td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-times text-gray-300"></i></td>
+                        <td class="text-center py-4 px-4"><i class="fas fa-check text-green-500"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Questions fréquentes</h2>
+        </div>
+        
+        <div class="space-y-4">
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h4 class="font-bold text-gray-900 mb-2">Puis-je changer d'offre à tout moment ?</h4>
+                <p class="text-gray-600">Oui, vous pouvez upgrader ou downgrader votre abonnement à tout moment. Les changements prendront effet à la prochaine période de facturation.</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h4 class="font-bold text-gray-900 mb-2">Y a-t-il un engagement de durée ?</h4>
+                <p class="text-gray-600">Non, tous nos abonnements sont sans engagement. Vous pouvez résilier à tout moment.</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h4 class="font-bold text-gray-900 mb-2">Comment fonctionne l'offre gratuite ?</h4>
+                <p class="text-gray-600">L'offre Découverte vous permet de tester la plateforme avec des fonctionnalités limitées. Vous pouvez passer à une offre payante à tout moment pour débloquer toutes les fonctionnalités.</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h4 class="font-bold text-gray-900 mb-2">Proposez-vous des remises pour les groupes ?</h4>
+                <p class="text-gray-600">Oui, nous proposons des tarifs préférentiels pour les cabinets de conseil, les banques et les réseaux de franchise. Contactez-nous pour plus d'informations.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-accent-500 to-accent-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Des questions sur nos tarifs ?
+        </h2>
+        <p class="text-xl text-accent-100 mb-8">
+            Notre équipe est disponible pour vous aider à choisir l'offre adaptée à vos besoins.
+        </p>
+        <a href="{% url 'contact' %}" class="inline-flex items-center px-8 py-4 bg-white text-accent-600 rounded-xl font-semibold text-lg hover:bg-gray-100 transition">
+            <i class="fas fa-envelope mr-2"></i>
+            Nous contacter
+        </a>
+    </div>
+</section>
+{% endblock %}

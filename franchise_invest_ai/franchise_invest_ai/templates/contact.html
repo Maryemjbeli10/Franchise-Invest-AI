@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - Franchise Invest AI{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Contactez-nous</h1>
+        <p class="text-xl text-primary-100 max-w-3xl mx-auto">
+            Notre équipe est à votre disposition pour répondre à toutes vos questions.
+        </p>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Contact Form -->
+            <div class="bg-white rounded-2xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Envoyez-nous un message</h2>
+                
+                <form method="post" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nom complet *</label>
+                            <div class="relative">
+                                <input type="text" id="name" name="name" required
+                                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                                       placeholder="Jean Dupont">
+                                <i class="fas fa-user absolute left-3 top-3.5 text-gray-400"></i>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                            <div class="relative">
+                                <input type="email" id="email" name="email" required
+                                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                                       placeholder="jean@exemple.fr">
+                                <i class="fas fa-envelope absolute left-3 top-3.5 text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
+                        <div class="relative">
+                            <input type="tel" id="phone" name="phone"
+                                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                                   placeholder="+33 6 12 34 56 78">
+                            <i class="fas fa-phone absolute left-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Sujet *</label>
+                        <div class="relative">
+                            <input type="text" id="subject" name="subject" required
+                                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition"
+                                   placeholder="Demande d'information">
+                            <i class="fas fa-tag absolute left-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                        <div class="relative">
+                            <textarea id="message" name="message" rows="5" required
+                                      class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition resize-none"
+                                      placeholder="Votre message..."></textarea>
+                            <i class="fas fa-comment absolute left-3 top-3.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-semibold transition">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Envoyer le message
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="space-y-8">
+                <!-- Contact Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fas fa-envelope text-primary-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Email</h3>
+                        <p class="text-gray-600">contact@franchiseinvestai.fr</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fas fa-phone text-secondary-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Téléphone</h3>
+                        <p class="text-gray-600">+33 1 23 45 67 89</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fas fa-map-marker-alt text-accent-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Adresse</h3>
+                        <p class="text-gray-600">123 Avenue des Champs-Élysées<br>75008 Paris, France</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                            <i class="fas fa-clock text-purple-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Horaires</h3>
+                        <p class="text-gray-600">Lun - Ven: 9h - 18h<br>Samedi: 10h - 14h</p>
+                    </div>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-bold text-gray-900 mb-4">Suivez-nous</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-sky-500 rounded-lg flex items-center justify-center text-white hover:bg-sky-600 transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-blue-800 rounded-lg flex items-center justify-center text-white hover:bg-blue-900 transition">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-pink-600 rounded-lg flex items-center justify-center text-white hover:bg-pink-700 transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Map Placeholder -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-bold text-gray-900 mb-4">Notre localisation</h3>
+                    <div class="h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div class="text-center text-gray-400">
+                            <i class="fas fa-map text-4xl mb-2"></i>
+                            <p>Carte interactive</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

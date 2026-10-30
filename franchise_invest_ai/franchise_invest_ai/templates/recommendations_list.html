@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block title %}Mes Recommandations AI - Franchise Invest AI{% endblock %}
+
+{% block content %}
+<!-- Header jaune -->
+<section class="bg-gradient-to-r from-accent-500 to-accent-600 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3">Mes recommandations AI</h1>
+            <p class="text-accent-100 text-lg">Les franchises les plus compatibles avec votre profil d'investisseur.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats & Filtres -->
+<section class="py-6 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <!-- Stats rapides -->
+            <div class="flex items-center gap-6 text-sm">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                    <span class="text-gray-600"><strong class="text-gray-900">{{ haut_rendement }}</strong> Haut Rendement</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                    <span class="text-gray-600"><strong class="text-gray-900">{{ valeur_sure }}</strong> Valeur Sûre</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                    <span class="text-gray-600"><strong class="text-gray-900">{{ risque }}</strong> Risque Élevé</span>
+                </div>
+            </div>
+            
+            <!-- Budget info -->
+            <div class="flex items-center gap-3 bg-gray-50 px-4 py-2 rounded-xl">
+                <i class="fas fa-wallet text-primary-600"></i>
+                <span class="text-sm text-gray-600">Budget : <strong class="text-gray-900">{{ user_budget|floatformat:0 }}€</strong></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Liste des recommandations -->
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {% if recommendations %}
+            <div class="space-y-6">
+                {% for rec in recommendations %}
+                <!-- Carte franchise -->
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden">
+                    <div class="p-6 md:p-8">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            
+                            <!-- Colonne gauche : Info franchise -->
+                            <div class="flex-1 min-w-0">
+                                <!-- Tags catégorie + segment -->
+                                <div class="flex flex-wrap items-center gap-2 mb-3">
+                                    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium uppercase tracking-wide">
+                                        {{ rec.cuisines|title|default:"Franchise" }}
+                                    </span>
+                                    {% if rec.segment == "Haut Rendement" %}
+                                    <span class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-semibold">
+                                        Haut Rendement
+                                    </span>
+                                    {% elif rec.segment == "Valeur Sûre" %}
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold">
+                                        Valeur Sûre
+                                    </span>
+                                    {% else %}
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 rounded-lg text-xs font-semibold">
+                                        Risque Élevé
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Nom + description -->
+                                <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-2">{{ rec.nom }}</h2>
+                                <p class="text-gray-500 text-sm mb-4 line-clamp-2">
+                                    {{ rec.description|default:"Franchise de restauration avec un concept éprouvé et un fort potentiel de développement sur le territoire français." }}
+                                </p>
+                                
+                                <!-- Métriques -->
+                                <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fas fa-euro-sign text-gray-400"></i>
+                                        {{ rec.investissement_global }}
+                                    </span>
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fas fa-star text-yellow-400"></i>
+                                        {{ rec.rating_composite|default:"N/A" }}/5
+                                    </span>
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fas fa-percentage text-gray-400"></i>
+                                        {{ rec.taux_reussite|default:"70" }}% réussite
+                                    </span>
+                                    {% if rec.implantations %}
+                                    <span class="flex items-center gap-1.5">
+                                        <i class="fas fa-store text-gray-400"></i>
+                                        {{ rec.implantations }} implantations
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Tags d'alerte -->
+                                <div class="flex flex-wrap gap-2">
+                                    {% if rec.budget_warning %}
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium">
+                                        <i class="fas fa-check text-blue-500"></i>
+                                        Votre capital disponible est insuffisant
+                                    </span>
+                                    {% endif %}
+                                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium">
+                                        <i class="fas fa-check text-blue-500"></i>
+                                        Niveau de risque adapté à votre profil
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Colonne droite : Match score + actions -->
+                            <div class="flex flex-row lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-4 lg:min-w-[140px]">
+                                
+                                <!-- Cercle de match -->
+                                <div class="relative">
+                                    <svg class="w-20 h-20 transform -rotate-90" viewBox="0 0 36 36">
+                                        <!-- Cercle de fond -->
+                                        <path
+                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            fill="none"
+                                            stroke="#e5e7eb"
+                                            stroke-width="3"
+                                        />
+                                        <!-- Cercle de progression -->
+                                        <path
+                                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            fill="none"
+                                            stroke="{% if rec.match_score >= 70 %}#22c55e{% elif rec.match_score >= 40 %}#eab308{% else %}#ef4444{% endif %}"
+                                            stroke-width="3"
+                                            stroke-dasharray="{{ rec.match_score }}, 100"
+                                            stroke-linecap="round"
+                                        />
+                                    </svg>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                        <span class="text-xl font-bold text-gray-900">{{ rec.match_score }}%</span>
+                                        <span class="text-[10px] text-gray-500 uppercase">Match</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Boutons -->
+                                <div class="flex flex-col gap-2">
+                                    <a href="{% url 'franchise_detail' slug=rec.slug|default:rec.nom|slugify %}" 
+   class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-medium transition text-center">
+    Détails
+</a>
+                                    <a href="{% url 'simulation' %}?franchise={{ rec.franchise_id|urlencode }}" class="px-5 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-semibold transition text-center shadow-sm">
+                                        Simuler
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination (si besoin) -->
+            {% if total_recos > 20 %}
+            <div class="mt-8 flex justify-center">
+                <nav class="flex items-center gap-2">
+                    <button class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50 text-sm">
+                        <i class="fas fa-chevron-left mr-1"></i> Précédent
+                    </button>
+                    <span class="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium">1</span>
+                    <button class="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50 text-sm">
+                        Suivant <i class="fas fa-chevron-right ml-1"></i>
+                    </button>
+                </nav>
+            </div>
+            {% endif %}
+            
+        {% else %}
+            <!-- État vide -->
+            <div class="bg-white rounded-2xl shadow-sm p-12 text-center">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-robot text-gray-400 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-3">Aucune recommandation trouvée</h3>
+                <p class="text-gray-500 max-w-md mx-auto mb-6">
+                    Aucune franchise ne correspond actuellement à vos critères. Essayez de modifier votre profil investisseur.
+                </p>
+                <a href="{% url 'edit_profile' %}" class="inline-flex items-center px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition font-medium">
+                    <i class="fas fa-user-edit mr-2"></i>
+                    Modifier mon profil
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Graphiques (optionnel - si tu veux les stats en bas) -->
+{% if recommendations and chart_data %}
+<section class="py-8 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Analyse de vos recommandations</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Graphique segments -->
+            <div class="bg-gray-50 rounded-2xl p-6">
+                <h3 class="text-sm font-semibold text-gray-600 mb-4">Répartition par segment</h3>
+                <canvas id="segmentsChart" height="200"></canvas>
+            </div>
+            <!-- Graphique cuisines -->
+            <div class="bg-gray-50 rounded-2xl p-6">
+                <h3 class="text-sm font-semibold text-gray-600 mb-4">Top cuisines</h3>
+                <canvas id="cuisinesChart" height="200"></canvas>
+            </div>
+            <!-- Graphique budget -->
+            <div class="bg-gray-50 rounded-2xl p-6">
+                <h3 class="text-sm font-semibold text-gray-600 mb-4">Répartition par budget</h3>
+                <canvas id="budgetChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Données depuis Django
+const chartData = JSON.parse('{{ chart_data|safe }}');
+
+// Chart Segments
+new Chart(document.getElementById('segmentsChart'), {
+    type: 'doughnut',
+    data: {
+        labels: Object.keys(chartData.segments),
+        datasets: [{
+            data: Object.values(chartData.segments),
+            backgroundColor: ['#22c55e', '#3b82f6', '#ef4444']
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// Chart Cuisines (top 5)
+const cuisines = Object.entries(chartData.cuisines).sort((a,b) => b[1]-a[1]).slice(0,5);
+new Chart(document.getElementById('cuisinesChart'), {
+    type: 'bar',
+    data: {
+        labels: cuisines.map(c => c[0]),
+        datasets: [{
+            data: cuisines.map(c => c[1]),
+            backgroundColor: '#3b82f6'
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+});
+
+// Chart Budget
+new Chart(document.getElementById('budgetChart'), {
+    type: 'bar',
+    data: {
+        labels: Object.keys(chartData.budget_ranges),
+        datasets: [{
+            data: Object.values(chartData.budget_ranges),
+            backgroundColor: '#eab308'
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+});
+</script>
+{% endif %}
+
+{% endblock %}

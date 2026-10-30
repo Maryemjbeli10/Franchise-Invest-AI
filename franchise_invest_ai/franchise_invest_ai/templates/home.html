@@ -1,0 +1,501 @@
+{% extends 'base.html' %}
+
+{% block title %}Franchise Invest AI - Intelligence Artificielle pour l'Investissement en Franchise{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 text-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    </div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Hero Content -->
+            <div class="space-y-8">
+                <div class="inline-flex items-center px-4 py-2 bg-primary-500/20 rounded-full border border-primary-400/30">
+                    <span class="w-2 h-2 bg-primary-400 rounded-full mr-2 animate-pulse"></span>
+                    <span class="text-primary-300 text-sm font-medium">Plateforme SaaS avec IA Intégrée</span>
+                </div>
+                
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                    Transformez votre <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">investissement</span> en franchise
+                </h1>
+                
+                <p class="text-xl text-gray-300 max-w-xl">
+                    Au-delà des simples données, nous offrons une intelligence prédictive pour guider les futurs restaurateurs vers les concepts les plus rentables selon leur profil et leur zone géographique.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="{% url 'register' %}" class="inline-flex items-center px-8 py-4 bg-primary-600 hover:bg-primary-700 rounded-xl font-semibold text-lg transition transform hover:scale-105">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Commencer gratuitement
+                    </a>
+                    <a href="{% url 'how_it_works' %}" class="inline-flex items-center px-8 py-4 bg-white/10 hover:bg-white/20 rounded-xl font-semibold text-lg transition border border-white/20">
+                        <i class="fas fa-play-circle mr-2"></i>
+                        Voir comment ça marche
+                    </a>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-3 gap-6 pt-8 border-t border-white/10">
+                    <div>
+                        <div class="text-3xl font-bold text-primary-400">60%</div>
+                        <div class="text-sm text-gray-400">Taux d'échec réduit</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-secondary-400">2 sem</div>
+                        <div class="text-sm text-gray-400">Au lieu de 3 mois</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold text-accent-400">+35%</div>
+                        <div class="text-sm text-gray-400">Rentabilité optimisée</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Visual -->
+            <div class="relative">
+                <div class="relative bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+                    <!-- Dashboard Preview -->
+                    <div class="bg-gray-900 rounded-xl p-4 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            </div>
+                            <div class="text-xs text-gray-500">Dashboard AI</div>
+                        </div>
+                        
+                        <!-- Chart Preview -->
+                        <div class="bg-gray-800 rounded-lg p-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-sm text-gray-400">Prédiction CA</span>
+                                <span class="text-green-400 text-sm font-medium">+24.5%</span>
+                            </div>
+                            <div class="flex items-end space-x-2 h-24">
+                                <div class="flex-1 bg-primary-600/50 rounded-t" style="height: 40%"></div>
+                                <div class="flex-1 bg-primary-600/60 rounded-t" style="height: 55%"></div>
+                                <div class="flex-1 bg-primary-600/70 rounded-t" style="height: 45%"></div>
+                                <div class="flex-1 bg-primary-600/80 rounded-t" style="height: 70%"></div>
+                                <div class="flex-1 bg-primary-600 rounded-t" style="height: 85%"></div>
+                                <div class="flex-1 bg-secondary-500 rounded-t" style="height: 100%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Score Cards -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-gray-800 rounded-lg p-3">
+                                <div class="text-xs text-gray-500 mb-1">Score AI</div>
+                                <div class="text-2xl font-bold text-primary-400">87.5</div>
+                            </div>
+                            <div class="bg-gray-800 rounded-lg p-3">
+                                <div class="text-xs text-gray-500 mb-1">Probabilité</div>
+                                <div class="text-2xl font-bold text-secondary-400">78%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Elements -->
+                <div class="absolute -top-4 -right-4 bg-secondary-500 text-white px-4 py-2 rounded-lg shadow-lg animate-bounce">
+                    <i class="fas fa-check-circle mr-1"></i> Match 95%
+                </div>
+                <div class="absolute -bottom-4 -left-4 bg-accent-500 text-gray-900 px-4 py-2 rounded-lg shadow-lg">
+                    <i class="fas fa-chart-line mr-1"></i> ROI +32%
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Value Proposition Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Notre Mission : <span class="text-primary-600">Démocratiser</span> l'accès à l'investissement
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Des outils professionnels à la portée de tous les investisseurs, débutants comme expérimentés.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Card 1 -->
+            <div class="group bg-gray-50 rounded-2xl p-8 hover:bg-primary-50 transition duration-300">
+                <div class="w-14 h-14 bg-primary-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary-200 transition">
+                    <i class="fas fa-users text-2xl text-primary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Démocratiser l'accès</h3>
+                <p class="text-gray-600">Outils professionnels pour investisseurs débutants. Plus besoin d'être expert pour investir intelligemment.</p>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="group bg-gray-50 rounded-2xl p-8 hover:bg-secondary-50 transition duration-300">
+                <div class="w-14 h-14 bg-secondary-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-secondary-200 transition">
+                    <i class="fas fa-shield-alt text-2xl text-secondary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Réduire le risque</h3>
+                <p class="text-gray-600">Prédire la rentabilité avant la signature. Notre IA analyse des milliers de données pour vous.</p>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="group bg-gray-50 rounded-2xl p-8 hover:bg-accent-50 transition duration-300">
+                <div class="w-14 h-14 bg-accent-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent-200 transition">
+                    <i class="fas fa-map-marked-alt text-2xl text-accent-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Optimiser le choix</h3>
+                <p class="text-gray-600">Analyse croisée franchise / géographie. Trouvez le concept parfait pour votre localisation.</p>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="group bg-gray-50 rounded-2xl p-8 hover:bg-purple-50 transition duration-300">
+                <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-200 transition">
+                    <i class="fas fa-file-invoice-dollar text-2xl text-purple-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Faciliter le financement</h3>
+                <p class="text-gray-600">Rapports de viabilité basés sur la donnée. Convainquez votre banquier avec des chiffres solides.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AI Technology Section -->
+<section class="py-20 bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <!-- Content -->
+            <div>
+                <div class="inline-flex items-center px-4 py-2 bg-primary-500/20 rounded-full border border-primary-400/30 mb-6">
+                    <i class="fas fa-robot text-primary-400 mr-2"></i>
+                    <span class="text-primary-300 text-sm font-medium">Technologie de Pointe</span>
+                </div>
+                
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                    Plateforme SaaS intégrant <span class="text-primary-400">IA</span> + <span class="text-secondary-400">Business Intelligence</span>
+                </h2>
+                
+                <p class="text-gray-400 text-lg mb-8">
+                    Notre technologie combine les meilleurs algorithmes de machine learning avec des outils de business intelligence pour vous offrir des insights actionnables.
+                </p>
+                
+                <div class="space-y-6">
+                    <!-- Feature 1 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-primary-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-star text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-1">Scoring automatique des franchises</h4>
+                            <p class="text-gray-400">Évaluation objective basée sur des centaines de critères financiers et opérationnels.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-secondary-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-link text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-1">Matching intelligent Investisseur ↔ Franchise</h4>
+                            <p class="text-gray-400">Algorithme de filtrage collaboratif pour trouver le match parfait.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-bolt text-gray-900"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-1">Décision en 2 semaines au lieu de 3 mois</h4>
+                            <p class="text-gray-400">Accélérez votre processus de décision avec des analyses instantanées.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Visual -->
+            <div class="relative">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                            <div class="text-4xl font-bold text-primary-400 mb-2">XGBoost</div>
+                            <div class="text-gray-400">Prédiction de Performance</div>
+                        </div>
+                        <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                            <div class="text-4xl font-bold text-secondary-400 mb-2">K-Means</div>
+                            <div class="text-gray-400">Segmentation Intelligente</div>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mt-8">
+                        <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                            <div class="text-4xl font-bold text-accent-400 mb-2">Random</div>
+                            <div class="text-gray-400">Random Forest</div>
+                        </div>
+                        <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                            <div class="text-4xl font-bold text-purple-400 mb-2">Collab</div>
+                            <div class="text-gray-400">Filtrage Collaboratif</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Connection Lines -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-32 h-32 border-2 border-dashed border-primary-500/30 rounded-full animate-spin" style="animation-duration: 20s;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Algorithms Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Nos Algorithmes <span class="text-primary-600">Intelligents</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Trois algorithmes de pointe pour une analyse complète et précise de vos opportunités d'investissement.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Algorithm 1: XGBoost -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition">
+                <div class="bg-gradient-to-r from-primary-600 to-primary-700 p-6">
+                    <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-chart-line text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Prédiction de Performance</h3>
+                    <p class="text-primary-100 mt-2">XGBoost / Random Forest</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-6">
+                        Estimation du CA potentiel à 2 ans en croisant l'apport, la localisation et l'investissement global.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-primary-500 mr-3"></i>
+                            Prédiction CA année 1 & 2
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-primary-500 mr-3"></i>
+                            Estimation du seuil de rentabilité
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-primary-500 mr-3"></i>
+                            Analyse des facteurs clés
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Algorithm 2: K-Means -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition">
+                <div class="bg-gradient-to-r from-secondary-600 to-secondary-700 p-6">
+                    <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-layer-group text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Segmentation Intelligente</h3>
+                    <p class="text-secondary-100 mt-2">K-Means Clustering</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-6">
+                        Classification des franchises en catégories : "Haut Rendement", "Valeur Sûre" ou "Risque Élevé".
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-secondary-500 mr-3"></i>
+                            Catégorisation automatique
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-secondary-500 mr-3"></i>
+                            Évaluation du niveau de risque
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-secondary-500 mr-3"></i>
+                            Comparaison sectorielle
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Algorithm 3: Collaborative Filtering -->
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition">
+                <div class="bg-gradient-to-r from-accent-500 to-accent-600 p-6">
+                    <div class="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-handshake text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Matching Investisseur</h3>
+                    <p class="text-accent-100 mt-2">Filtrage Collaboratif</p>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 mb-6">
+                        Système de recommandation personnalisé basé sur le budget et les préférences de l'utilisateur.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-accent-500 mr-3"></i>
+                            Recommandations personnalisées
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-accent-500 mr-3"></i>
+                            Score de compatibilité
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-accent-500 mr-3"></i>
+                            Explications des matchs
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Target Audience Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Pour qui est <span class="text-primary-600">Franchise Invest AI</span> ?
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Individual Investors -->
+            <div class="text-center">
+                <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-user-tie text-3xl text-primary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Investisseurs Individuels</h3>
+                <p class="text-gray-600">
+                    Investissez avec moins de risque et plus de visibilité. Nos outils vous guident à chaque étape.
+                </p>
+            </div>
+            
+            <!-- Franchise Networks -->
+            <div class="text-center">
+                <div class="w-20 h-20 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-network-wired text-3xl text-secondary-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Réseaux de Franchise</h3>
+                <p class="text-gray-600">
+                    Attirez des franchiseurs qualifiés grâce à notre plateforme de mise en relation intelligente.
+                </p>
+            </div>
+            
+            <!-- Ecosystem -->
+            <div class="text-center">
+                <div class="w-20 h-20 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-university text-3xl text-accent-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Écosystème (Banques & Consultants)</h3>
+                <p class="text-gray-600">
+                    Accès à des données sectorielles fiables pour accompagner vos clients dans leurs décisions.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Franchises Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Franchises à la <span class="text-primary-600">Une</span>
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Découvrez les concepts les mieux notés par notre algorithme AI.
+                </p>
+           
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for franchise in featured_franchises %}
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition group">
+                <div class="relative h-48 bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+                    {% if franchise.logo %}
+                        <img src="{{ franchise.logo.url }}" alt="{{ franchise.name }}" class="h-24 object-contain">
+                    {% else %}
+                        <div class="text-white text-center">
+                            <i class="fas fa-store text-5xl mb-2"></i>
+                            <div class="text-lg font-semibold">{{ franchise.name }}</div>
+                        </div>
+                    {% endif %}
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full">
+                        <span class="text-sm font-bold text-primary-600">{{ franchise.ai_score }}/100</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm text-gray-500">{{ franchise.get_segment_display }}</span>
+                        <span class="px-3 py-1 rounded-full text-xs font-medium 
+                            {% if franchise.category == 'haut_rendement' %}bg-green-100 text-green-700
+                            {% elif franchise.category == 'valeur_sure' %}bg-blue-100 text-blue-700
+                            {% else %}bg-red-100 text-red-700{% endif %}">
+                            {{ franchise.get_category_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ franchise.name }}</h3>
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ franchise.description|truncatechars:100 }}</p>
+                    
+                    <div class="flex items-center justify-between text-sm mb-4">
+                        <div class="text-gray-500">
+                            <i class="fas fa-euro-sign mr-1"></i>
+                            {{ franchise.investment_range }}
+                        </div>
+                        <div class="text-gray-500">
+                            <i class="fas fa-percentage mr-1"></i>
+                            {{ franchise.success_rate }}% réussite
+                        </div>
+                    </div>
+                    
+                    <a href="{% url 'franchise_detail' franchise.slug %}" class="block w-full text-center py-3 bg-gray-100 hover:bg-primary-600 hover:text-white rounded-xl font-medium transition">
+                        Voir les détails
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-3 text-center py-12">
+                <p class="text-gray-500">Aucune franchise disponible pour le moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="mt-8 text-center md:hidden">
+            <a href="{% url 'franchises_list' %}" class="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold">
+                Voir toutes les franchises <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-primary-600 to-primary-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Prêt à transformer votre investissement ?
+        </h2>
+        <p class="text-xl text-primary-100 mb-8">
+            Rejoignez des centaines d'investisseurs qui utilisent notre IA pour prendre de meilleures décisions.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'register' %}" class="inline-flex items-center px-8 py-4 bg-white text-primary-700 rounded-xl font-semibold text-lg hover:bg-gray-100 transition">
+                <i class="fas fa-rocket mr-2"></i>
+                Commencer gratuitement
+            </a>
+            <a href="{% url 'contact' %}" class="inline-flex items-center px-8 py-4 bg-primary-700 text-white border border-primary-500 rounded-xl font-semibold text-lg hover:bg-primary-800 transition">
+                <i class="fas fa-envelope mr-2"></i>
+                Nous contacter
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

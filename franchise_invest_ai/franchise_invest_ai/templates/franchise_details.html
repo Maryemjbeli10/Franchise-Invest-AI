@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-4 py-12">
+
+    <!-- HEADER -->
+    <div class="mb-10">
+        <h1 class="text-4xl font-extrabold text-gray-800 mb-2">
+            {{ franchise.nom }}
+        </h1>
+        <p class="text-gray-500">{{ franchise.description }}</p>
+    </div>
+
+    <!-- GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- INFO -->
+        <div class="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">
+                📌 Informations Générales
+            </h2>
+
+            <ul class="space-y-3 text-gray-600">
+                <li><strong>Secteur :</strong> {{ franchise.get_segment_display }}</li>
+                <li><strong>Fondée en :</strong> {{ franchise.year_founded|default:"Non spécifié" }}</li>
+            </ul>
+        </div>
+
+        <!-- AI CARD -->
+        <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-2xl shadow-md border">
+            <h2 class="text-xl font-semibold text-indigo-900 mb-4">
+                🤖 Analyse AI & BI
+            </h2>
+
+            <!-- SCORE -->
+            <div class="mb-6">
+                <div class="flex justify-between mb-2">
+                    <span class="text-sm text-gray-600">Score AI</span>
+                    <span class="font-bold text-indigo-700">{{ franchise.note_ai }}/100</span>
+                </div>
+
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div 
+                        class="bg-indigo-600 h-3 rounded-full transition-all duration-700"
+                        style="width: {{ franchise.note_ai }}%;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI -->
+            <div class="grid gap-4">
+                <div class="flex justify-between bg-white p-3 rounded-lg shadow">
+                    <span>💰 Investissement</span>
+                    <span class="font-bold">{{ franchise.investissement_global|floatformat:0 }} DT</span>
+                </div>
+
+                <div class="flex justify-between bg-white p-3 rounded-lg shadow">
+                    <span>🏦 Apport</span>
+                    <span class="font-bold">{{ franchise.apport_personnel|floatformat:0 }} DT</span>
+                </div>
+
+                <div class="flex justify-between bg-white p-3 rounded-lg shadow">
+                    <span>📈 CA potentiel</span>
+                    <span class="font-bold text-green-600">{{ franchise.ca_potentiel|floatformat:0 }} DT</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- BAR CHART -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">
+                📊 Analyse Financière
+            </h2>
+            <canvas id="financeChart"></canvas>
+        </div>
+
+        <!-- DOUGHNUT -->
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <h2 class="text-lg font-semibold mb-4 text-gray-700">
+                🍩 Répartition
+            </h2>
+            <canvas id="doughnutChart"></canvas>
+        </div>
+
+        <!-- RADAR -->
+
+
+    </div>
+
+</div>
+
+<!-- CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+/* ================= BAR CHART ================= */
+const ctx = document.getElementById('financeChart').getContext('2d');
+
+const gradient1 = ctx.createLinearGradient(0, 0, 0, 400);
+gradient1.addColorStop(0, "#6366F1");
+gradient1.addColorStop(1, "#8B5CF6");
+
+const gradient2 = ctx.createLinearGradient(0, 0, 0, 400);
+gradient2.addColorStop(0, "#22C55E");
+gradient2.addColorStop(1, "#4ADE80");
+
+const gradient3 = ctx.createLinearGradient(0, 0, 0, 400);
+gradient3.addColorStop(0, "#F59E0B");
+gradient3.addColorStop(1, "#FBBF24");
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Investissement', 'Apport', 'CA Potentiel'],
+        datasets: [{
+            data: [
+                {{ franchise.investissement_global }},
+                {{ franchise.apport_personnel }},
+                {{ franchise.ca_potentiel }}
+            ],
+            backgroundColor: [gradient1, gradient2, gradient3],
+            borderRadius: 12
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { display: false }
+        },
+        animation: {
+            duration: 1500
+        }
+    }
+});
+
+
+/* ================= DOUGHNUT ================= */
+const ctx2 = document.getElementById('doughnutChart');
+
+new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ['Investissement', 'Apport', 'CA'],
+        datasets: [{
+            data: [
+                {{ franchise.investissement_global }},
+                {{ franchise.apport_personnel }},
+                {{ franchise.ca_potentiel }}
+            ],
+            backgroundColor: [
+                "#6366F1",
+                "#22C55E",
+                "#F59E0B"
+            ],
+            borderWidth: 0,
+            hoverOffset: 15
+        }]
+    },
+    options: {
+        cutout: '70%',
+        plugins: {
+            legend: { position: 'bottom' }
+        }
+    }
+});
+
+
+/* ================= RADAR ================= */
+const ctx3 = document.getElementById('radarChart');
+
+new Chart(ctx3, {
+    type: 'radar',
+    data: {
+        labels: ['Rentabilité', 'Risque', 'Popularité', 'Croissance', 'Stabilité'],
+        datasets: [{
+            label: 'Analyse AI',
+            data: [
+                {{ franchise.note_ai }},
+                60,
+                75,
+                80,
+                70
+            ],
+            backgroundColor: "rgba(99,102,241,0.2)",
+            borderColor: "#6366F1",
+            pointBackgroundColor: "#6366F1"
+        }]
+    },
+    options: {
+        scales: {
+            r: {
+                ticks: { display: false }
+            }
+        }
+    }
+});
+
+</script>
+
+{% endblock %}

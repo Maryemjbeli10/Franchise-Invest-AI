@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}Nouvelle Simulation - Franchise Invest AI{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-r from-green-600 to-green-800 text-white py-10">
+    <div class="max-w-4xl mx-auto px-4">
+        <h1 class="text-3xl font-bold mb-2"><i class="fas fa-calculator mr-2"></i>Simuler la rentabilité</h1>
+        <p class="text-green-100">Notre IA prédit la performance de votre projet de franchise.</p>
+    </div>
+</section>
+
+<section class="py-10 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-white rounded-2xl shadow-lg p-8">
+            
+            <form method="POST" action="{% url 'simulation' %}" id="simulationForm">
+                {% csrf_token %}
+                
+                <!-- Étape 1: Choisir la franchise de référence -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">
+                        <span class="w-8 h-8 bg-blue-600 text-white rounded-full inline-flex items-center justify-center text-sm mr-2">1</span>
+                        Choisir une franchise de référence
+                    </h3>
+                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                        <select id="franchiseSelect" class="w-full" style="width: 100%;">
+                            <option value=""></option>
+                        </select>
+                        <p class="text-xs text-blue-600 mt-2">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Les caractéristiques de cette franchise (rating, croissance, ancienneté) seront utilisées par l'IA pour la prédiction.
+                        </p>
+                    </div>
+                    <input type="hidden" name="franchise_id" id="franchiseIdInput">
+                    <input type="hidden" name="franchise_name" id="franchiseNameInput">
+                </div>
+
+                <!-- Détails franchise sélectionnée -->
+                <div id="franchiseDetails" class="hidden mb-8 bg-gray-50 rounded-xl p-4 border border-gray-200">
+                    <h4 class="font-bold text-gray-800 mb-2" id="selectedFranchiseName">-</h4>
+                    <div class="grid grid-cols-3 gap-4 text-sm">
+                        <div><span class="text-gray-500">Rating:</span> <span id="detailRating" class="font-medium">-</span></div>
+                        <div><span class="text-gray-500">Implantations:</span> <span id="detailImplantations" class="font-medium">-</span></div>
+                        <div><span class="text-gray-500">Croissance:</span> <span id="detailYOY" class="font-medium">-</span></div>
+                    </div>
+                </div>
+
+                <!-- Étape 2: Vos paramètres -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">
+                        <span class="w-8 h-8 bg-green-600 text-white rounded-full inline-flex items-center justify-center text-sm mr-2">2</span>
+                        Vos paramètres d'investissement
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Budget disponible (€)</label>
+                            <input type="number" name="budget" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                                   placeholder="150000"
+                                   value="{{ user_budget|default:'' }}">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Investissement global prévu (€)</label>
+                            <input type="number" name="investissement_global" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                                   placeholder="200000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Apport personnel (€)</label>
+                            <input type="number" name="apport_personnel"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                                   placeholder="50000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Localisation du projet</label>
+                            <input type="text" name="location" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                                   placeholder="Paris, France">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Type de cuisine</label>
+                        <input type="text" name="cuisine"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
+                               placeholder="italienne, fast food...">
+                    </div>
+                </div>
+
+                <!-- Bouton -->
+                <button type="submit" id="btnSimuler" disabled
+                        class="w-full py-4 bg-gray-400 text-white rounded-xl font-bold text-lg transition disabled:opacity-50">
+                    <i class="fas fa-play mr-2"></i>
+                    <span id="btnText">Sélectionnez une franchise pour continuer</span>
+                </button>
+            </form>
+            
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('#franchiseSelect').select2({
+        placeholder: 'Rechercher une franchise (KFC, McDonald\'s, etc.)...',
+        allowClear: true,
+        minimumInputLength: 2,
+        ajax: {
+            url: '{% url "search_franchises" %}',
+            dataType: 'json',
+            delay: 300,
+            data: function(params) {
+                return { q: params.term };
+            },
+            processResults: function(data) {
+                return { results: data.results };
+            },
+            cache: true
+        },
+        templateResult: function(data) {
+            if (!data.id) return data.text;
+            return $('<div class="py-1">' +
+                '<div class="font-semibold">' + data.nom + '</div>' +
+                '<div class="text-xs text-gray-500">' + (data.ville || '') + ' | ' + (data.cuisines || '') + '</div>' +
+                '</div>');
+        },
+        templateSelection: function(data) {
+            return data.nom || data.text;
+        }
+    });
+
+    $('#franchiseSelect').on('select2:select', function(e) {
+        const data = e.params.data;
+        $('#franchiseIdInput').val(data.id);
+        $('#franchiseNameInput').val(data.nom);
+        
+        $('#selectedFranchiseName').text(data.nom);
+        $('#detailRating').text(data.rating || '-');
+        $('#detailImplantations').text(data.Implantations || '-');
+        $('#detailYOY').text((data.YOY_Sales || '-') + '%');
+        
+        $('#franchiseDetails').removeClass('hidden');
+        
+        $('#btnSimuler').prop('disabled', false)
+            .removeClass('bg-gray-400').addClass('bg-green-600 hover:bg-green-700');
+        $('#btnText').text('Lancer la simulation IA');
+    });
+
+    $('#franchiseSelect').on('select2:clear', function() {
+        $('#franchiseIdInput').val('');
+        $('#franchiseNameInput').val('');
+        $('#franchiseDetails').addClass('hidden');
+        $('#btnSimuler').prop('disabled', true)
+            .removeClass('bg-green-600 hover:bg-green-700').addClass('bg-gray-400');
+        $('#btnText').text('Sélectionnez une franchise pour continuer');
+    });
+});
+</script>
+{% endblock %}

@@ -1,65 +1,299 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard Investisseur - RestoLocate</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .navbar { background-color: #003366; }
-        .card-prediction { border-left: 5px solid #28a745; }
-    </style>
-</head>
-<body class="bg-light">
-    <nav class="navbar navbar-dark px-4 mb-4">
-        <span class="navbar-brand mb-0 h1">RestoLocate AI - Investisseur</span>
-        <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Déconnexion</a>
-    </nav>
+{% extends 'base.html' %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card shadow-sm p-4 mb-4">
-                    <h5 class="fw-bold mb-3">Simulateur d'Investissement</h5>
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label class="form-label">Votre Budget (k€)</label>
-                            <input type="number" name="budget" class="form-control" placeholder="Ex: 120000" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Cuisine Préférée</label>
-                            <select name="cuisine" class="form-select">
-                                <option value="all">Toutes</option>
-                                <option value="italienne">Italienne</option>
-                                <option value="fast-food">Fast Food</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Calculer la Rentabilité</button>
-                    </form>
+{% block title %}Dashboard Investisseur - Franchise Invest AI{% endblock %}
+
+{% block content %}
+<!-- Header bleu -->
+<section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">Bonjour, {{ user.first_name|default:user.username }} !</h1>
+                <p class="text-blue-100 text-lg">Voici un aperçu de votre activité sur Franchise Invest AI.</p>
+            </div>
+            <div class="flex gap-3">
+                <!-- BOUTON MODIFIÉ : lien vers page dédiée -->
+                <a href="{% url 'simulation' %}" class="inline-flex items-center px-5 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition shadow-lg">
+                    <i class="fas fa-calculator mr-2"></i>
+                    Nouvelle simulation
+                </a>
+                <a href="#recommendations" class="inline-flex items-center px-5 py-3 bg-blue-700 text-white border border-blue-500 rounded-xl font-semibold hover:bg-blue-800 transition shadow-lg">
+                    <i class="fas fa-magic mr-2"></i>
+                    Mes recommandations
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cartes statistiques -->
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Mes matchs -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">Mes matchs</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ stats.matches|default:"10" }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-handshake text-blue-600 text-xl"></i>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-8">
-                <div class="card shadow-sm p-4 card-prediction">
-                    <h5 class="fw-bold mb-3">Recommandations de l'IA</h5>
-                    {% if results %}
-                        <div class="list-group">
-                            {% for item in results %}
-                            <div class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm">
-                                <div>
-                                    <h6 class="mb-1 text-primary fw-bold">{{ item.nom }}</h6>
-                                    <small>Investissement: {{ item.investissement_global }}€ | ROI: {{ item.roi|floatformat:2 }}x</small>
-                                </div>
-                                <span class="badge bg-success rounded-pill">Score AI: {{ item.recommendation_score|floatformat:2 }}</span>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <p class="text-muted">Entrez vos données à gauche pour lancer les modèles XGBoost et de Recommandation.</p>
-                    {% endif %}
+            <!-- Simulations -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">Simulations</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ stats.simulations|default:"4" }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rapports -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">Rapports</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ stats.rapports|default:"0" }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-file-alt text-yellow-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profil -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium mb-1">Profil</p>
+                        <p class="text-xl font-bold text-gray-900">{{ experience_label|default:"Débutant" }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-user text-purple-600 text-xl"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</section>
+
+<!-- Recommandations AI + Profil -->
+<section id="recommendations" class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Colonne gauche : Recommandations -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <!-- Header -->
+                    <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-magic text-blue-600 text-lg"></i>
+                            <h2 class="text-xl font-bold text-gray-900">Mes recommandations AI</h2>
+                        </div>
+                        <a href="{% url 'franchises_list' %}" class="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center gap-1">
+                            Voir tout <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+
+                    <!-- Liste des recommandations -->
+                    <div class="divide-y divide-gray-100">
+                        {% if recommendations %}
+                            {% for rec in recommendations %}
+                            <div class="p-6 hover:bg-gray-50 transition">
+                                <div class="flex items-start gap-4">
+                                    <!-- Logo/Icon -->
+                                    <div class="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <i class="fas {{ rec.category_icon }} text-gray-400 text-2xl"></i>
+                                    </div>
+
+                                    <!-- Info -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <h3 class="text-lg font-bold text-gray-900 truncate">{{ rec.nom }}</h3>
+                                            <div class="flex items-center gap-3">
+                                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                                                    {{ rec.match_score }}% match
+                                                </span>
+                                                <a href="#" class="text-gray-400 hover:text-blue-600 transition">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <p class="text-gray-500 text-sm mb-2">{{ rec.cuisines|title }}</p>
+
+                                        <div class="flex items-center gap-4 text-sm text-gray-600 mb-2">
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-euro-sign text-gray-400"></i>
+                                                {{ rec.investissement_global }}
+                                            </span>
+                                            <span class="flex items-center gap-1">
+                                                <i class="fas fa-star text-yellow-400"></i>
+                                                {{ rec.rating_composite }}/5
+                                            </span>
+                                        </div>
+
+                                        <!-- Tags -->
+                                        <div class="flex flex-wrap gap-2">
+                                            {% if rec.budget_warning %}
+                                            <span class="px-3 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-medium">
+                                                <i class="fas fa-exclamation-triangle mr-1"></i>
+                                                Budget insuffisant
+                                            </span>
+                                            {% endif %}
+                                            <span class="px-3 py-1 bg-green-50 text-green-700 rounded-lg text-xs font-medium">
+                                                <i class="fas fa-shield-alt mr-1"></i>
+                                                Risque adapté
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <!-- État vide -->
+                            <div class="p-12 text-center">
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-robot text-gray-400 text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-700 mb-2">Aucune recommandation pour le moment</h3>
+                                <p class="text-gray-500 text-sm max-w-md mx-auto mb-4">
+                                    Complétez votre profil investisseur (budget, cuisine préférée, ville) pour obtenir des recommandations personnalisées.
+                                </p>
+                                <a href="{% url 'edit_profile' %}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                                    <i class="fas fa-user-edit mr-2"></i>
+                                    Compléter mon profil
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne droite : Profil -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-2xl shadow-sm p-6">
+                    <!-- Avatar + Nom -->
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                            {{ user.first_name|first|default:user.username|first|upper }}
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">{{ user.first_name|default:user.username }} {{ user.last_name }}</h3>
+                            <p class="text-gray-500 text-sm">{{ user.email }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Infos profil -->
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Niveau d'expérience</span>
+                            <span class="font-semibold text-gray-900">{{ experience_label|default:"Débutant" }}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Capital disponible</span>
+                            <span class="font-semibold text-gray-900">{{ user.budget_disponible|default:"0"|floatformat:0 }}€</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Tolérance au risque</span>
+                            <span class="font-semibold text-gray-900">5/10</span>
+                        </div>
+                    </div>
+
+                    <!-- Bouton modifier -->
+                    <a href="{% url 'edit_profile' %}" class="flex items-center justify-center gap-2 w-full py-3 bg-gray-100 hover:bg-gray-200 rounded-xl font-medium text-gray-700 transition">
+                        <i class="fas fa-edit"></i>
+                        Modifier mon profil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Simulations récentes -->
+<section class="py-8 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-chart-line text-green-600 text-lg"></i>
+                    <h2 class="text-xl font-bold text-gray-900">Mes simulations récentes</h2>
+                </div>
+                <!-- BOUTON MODIFIÉ : lien vers page dédiée -->
+                <a href="{% url 'simulation' %}" class="text-green-600 hover:text-green-700 font-medium text-sm flex items-center gap-1">
+                    Nouvelle simulation <i class="fas fa-plus text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Liste des simulations -->
+            <div class="divide-y divide-gray-100">
+                {% if simulations %}
+                    {% for sim in simulations %}
+                    <div class="p-6 hover:bg-gray-50 transition">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-map-marker-alt text-green-600 text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-gray-900 mb-1">{{ sim.franchise_name }}</h3>
+                                    <p class="text-gray-500 text-sm mb-2">{{ sim.location|default:"Non spécifié" }}</p>
+                                    <div class="flex items-center gap-4 text-sm text-gray-600">
+                                        <span class="flex items-center gap-1">
+                                            <i class="fas fa-euro-sign text-gray-400"></i>
+                                            CA année 2: {{ sim.ca_annee_2|floatformat:0 }}€
+                                        </span>
+                                        <span class="flex items-center gap-1">
+                                            <i class="fas fa-clock text-gray-400"></i>
+                                            Rentabilité: {{ sim.rentabilite_mois }} mois
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right flex-shrink-0">
+                                <p class="text-sm text-gray-500 mb-1">Probabilité de succès</p>
+                                <p class="text-2xl font-bold {% if sim.probabilite_succes >= 80 %}text-green-600{% elif sim.probabilite_succes >= 60 %}text-yellow-600{% else %}text-red-600{% endif %}">
+                                    {{ sim.probabilite_succes }}%
+                                </p>
+                                <a href="#" class="inline-flex items-center gap-1 text-green-600 hover:text-green-700 text-sm font-medium mt-2">
+                                    Voir détails <i class="fas fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- État vide simulations -->
+                    <div class="p-12 text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calculator text-gray-400 text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Aucune simulation</h3>
+                        <p class="text-gray-500 text-sm max-w-md mx-auto mb-4">
+                            Lancez votre première simulation pour prédire le CA potentiel et la rentabilité d'une franchise.
+                        </p>
+                        <!-- BOUTON MODIFIÉ : lien vers page dédiée -->
+                        <a href="{% url 'simulation' %}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                            <i class="fas fa-play mr-2"></i>
+                            Lancer une simulation
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LE MODAL ET LE JAVASCRIPT ONT ÉTÉ SUPPRIMÉS -->
+<!-- La simulation se fait maintenant sur une page dédiée /simulation/ -->
+
+{% endblock %}

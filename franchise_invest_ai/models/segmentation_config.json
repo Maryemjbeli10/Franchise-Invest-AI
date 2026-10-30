@@ -1,0 +1,41 @@
+{
+  "label_map": {
+    "2": "Haut Rendement",
+    "1": "Valeur S\u00fbre",
+    "0": "Risque \u00c9lev\u00e9"
+  },
+  "clf_features": [
+    "investissement_global",
+    "apport_personnel",
+    "ratio_apport_investissement",
+    "anciennete",
+    "Implantations",
+    "rating",
+    "Redevance_fonctionnement",
+    "surface_m2",
+    "nb_heures_ouverture",
+    "Formations",
+    "Aide_auFinancement",
+    "YOY_Sales",
+    "investissement_par_m2"
+  ],
+  "seg_features": [
+    "CA_potentielApres2ans",
+    "investissement_global",
+    "apport_personnel",
+    "ratio_apport_investissement",
+    "anciennete",
+    "Implantations",
+    "rating",
+    "Redevance_fonctionnement",
+    "surface_m2",
+    "nb_heures_ouverture",
+    "Formations",
+    "Aide_auFinancement",
+    "YOY_Sales",
+    "investissement_par_m2"
+  ],
+  "silhouette_score": 0.1172,
+  "best_classifier": "RandomForest",
+  "cv_accuracy": 0.9474
+}

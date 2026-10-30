@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block title %}Nos Franchises - Franchise Invest AI{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">Découvrez nos franchises</h1>
+        <p class="text-xl text-primary-100 max-w-2xl">
+            Explorez les concepts de franchise les mieux notés par notre algorithme AI et trouvez celui qui correspond à votre profil.
+        </p>
+    </div>
+</section>
+
+<!-- Filters & Content -->
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Filters Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-bold text-gray-900">
+                            <i class="fas fa-filter mr-2"></i>Filtres
+                        </h3>
+                        <a href="{% url 'franchises_list' %}" class="text-sm text-primary-600 hover:text-primary-700">
+                            Réinitialiser
+                        </a>
+                    </div>
+                    
+                    <form method="get" class="space-y-6">
+                        <!-- Search -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Recherche</label>
+                            <div class="relative">
+                                <input type="text" name="search" value="{{ request.GET.search }}" 
+                                       placeholder="Nom de franchise..."
+                                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Segment -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Segment</label>
+                            <select name="segment" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="">Tous les segments</option>
+                                {% for value, label in segments %}
+                                <option value="{{ value }}" {% if request.GET.segment == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                            <select name="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="">Toutes les catégories</option>
+                                {% for value, label in categories %}
+                                <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Risk Level -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Niveau de risque</label>
+                            <select name="risk" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                <option value="">Tous les niveaux</option>
+                                {% for value, label in risk_levels %}
+                                <option value="{{ value }}" {% if request.GET.risk == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <!-- Min Score -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Score AI minimum</label>
+                            <input type="range" name="min_score" min="0" max="100" value="{{ request.GET.min_score|default:'0' }}"
+                                   class="w-full" oninput="document.getElementById('score-value').textContent = this.value">
+                            <div class="text-center text-sm text-gray-600 mt-1">
+                                <span id="score-value">{{ request.GET.min_score|default:'0' }}</span>/100
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition">
+                            Appliquer les filtres
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Results -->
+            <div class="lg:col-span-3">
+                <!-- Sort & Count -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                    <p class="text-gray-600 mb-4 sm:mb-0">
+                        <span class="font-semibold text-gray-900">{{ page_obj.paginator.count }}</span> franchise(s) trouvée(s)
+                    </p>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-500">Trier par:</span>
+                        <select onchange="window.location.href = this.value" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+                            <option value="?{% if request.GET.segment %}segment={{ request.GET.segment }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.risk %}risk={{ request.GET.risk }}&{% endif %}{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}sort=-ai_score" {% if request.GET.sort == '-ai_score' or not request.GET.sort %}selected{% endif %}>Score AI (décroissant)</option>
+                            <option value="?{% if request.GET.segment %}segment={{ request.GET.segment }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.risk %}risk={{ request.GET.risk }}&{% endif %}{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}sort=ai_score" {% if request.GET.sort == 'ai_score' %}selected{% endif %}>Score AI (croissant)</option>
+                            <option value="?{% if request.GET.segment %}segment={{ request.GET.segment }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.risk %}risk={{ request.GET.risk }}&{% endif %}{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}sort=-success_rate" {% if request.GET.sort == '-success_rate' %}selected{% endif %}>Taux de réussite</option>
+                            <option value="?{% if request.GET.segment %}segment={{ request.GET.segment }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.risk %}risk={{ request.GET.risk }}&{% endif %}{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}sort=investment_min" {% if request.GET.sort == 'investment_min' %}selected{% endif %}>Investissement (croissant)</option>
+                            <option value="?{% if request.GET.segment %}segment={{ request.GET.segment }}&{% endif %}{% if request.GET.category %}category={{ request.GET.category }}&{% endif %}{% if request.GET.risk %}risk={{ request.GET.risk }}&{% endif %}{% if request.GET.search %}search={{ request.GET.search }}&{% endif %}sort=name" {% if request.GET.sort == 'name' %}selected{% endif %}>Nom (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Franchise Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {% for franchise in page_obj %}
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition group">
+                        <div class="relative h-48 bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+                            {% if franchise.logo %}
+                                <img src="{{ franchise.logo.url }}" alt="{{ franchise.name }}" class="h-20 object-contain">
+                            {% else %}
+                                <div class="text-white text-center">
+                                    <i class="fas fa-store text-4xl mb-2"></i>
+                                </div>
+                            {% endif %}
+                            <span class="text-white font-bold text-lg text-center drop-shadow-md">{{ franchise.nom }}</span>
+<div class="absolute bottom-4 left-4">
+    <span class="px-3 py-1 rounded-full text-xs font-bold text-white shadow-sm
+        {% if franchise.segment == 'haut_rendement' %}bg-green-500
+        {% elif franchise.segment == 'valeur_sure' %}bg-yellow-600
+        {% else %}bg-purple-500{% endif %}">
+        <i class="fas fa-robot mr-1"></i>
+        {{ franchise.get_segment_display|default:"Non segmenté" }}
+    </span>
+</div>
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full">
+                                <span class="text-sm font-bold text-primary-600">{{ franchise.note_ai }}/100</span>
+                            </div>
+                  
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs text-gray-500 uppercase tracking-wide">{{ franchise.get_segment_display }}</span>
+                                <span class="text-xs px-2 py-1 rounded-full 
+                                    {% if franchise.risk_level == 'faible' %}bg-green-100 text-green-700
+                                    {% elif franchise.risk_level == 'moyen' %}bg-yellow-100 text-yellow-700
+                                    {% else %}bg-red-100 text-red-700{% endif %}">
+                                    {{ franchise.get_risk_level_display }}
+                                </span>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 mb-2">{{ franchise.name }}</h3>
+                            <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ franchise.description|truncatechars:80 }}</p>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                                <div class="bg-gray-50 rounded-lg p-3">
+                                    <div class="text-gray-500 text-xs mb-1">Investissement</div>
+                                    <div class="font-semibold text-gray-900">{{ franchise.investissement_global|floatformat:0 }} €</div>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-3">
+                                    <div class="text-gray-500 text-xs mb-1">Réussite</div>
+                                    <div class="font-semibold text-gray-900">{{ franchise.taux_reussite }}%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <a href="{% url 'franchise_detail' franchise.slug %}" class="flex-1 text-center py-2 bg-gray-100 hover:bg-primary-600 hover:text-white rounded-lg font-medium transition text-sm">
+                                    Détails
+                                </a>
+                                {% if user.is_authenticated %}
+                               <a href="#" ...>
+                                    Simuler
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-full text-center py-16">
+                        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-search text-gray-400 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucune franchise trouvée</h3>
+                        <p class="text-gray-500">Essayez de modifier vos critères de recherche.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="mt-8 flex justify-center">
+                    <nav class="flex items-center space-x-2">
+                        {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.segment %}&segment={{ request.GET.segment }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.risk %}&risk={{ request.GET.risk }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
+                           class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                            <span class="px-4 py-2 bg-primary-600 text-white rounded-lg font-medium">{{ num }}</span>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a href="?page={{ num }}{% if request.GET.segment %}&segment={{ request.GET.segment }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.risk %}&risk={{ request.GET.risk }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
+                               class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">{{ num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.segment %}&segment={{ request.GET.segment }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.risk %}&risk={{ request.GET.risk }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
+                           class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        {% endif %}
+                    </nav>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

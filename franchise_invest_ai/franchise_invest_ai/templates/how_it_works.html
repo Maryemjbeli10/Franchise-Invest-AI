@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block title %}Comment ça marche - Franchise Invest AI{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-gradient-to-r from-secondary-600 to-secondary-800 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Comment ça marche ?</h1>
+        <p class="text-xl text-secondary-100 max-w-3xl mx-auto">
+            De la création de votre profil à la décision finale, découvrez comment notre IA vous accompagne à chaque étape.
+        </p>
+    </div>
+</section>
+
+<!-- Steps Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Step 1 -->
+            <div class="relative">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-3xl font-bold text-primary-600">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Créez votre profil</h3>
+                    <p class="text-gray-600">
+                        Indiquez votre capital disponible, votre expérience et vos préférences d'investissement.
+                    </p>
+                </div>
+                <div class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gray-200 -z-0"></div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="relative">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-3xl font-bold text-secondary-600">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Recevez vos matchs</h3>
+                    <p class="text-gray-600">
+                        Notre algorithme de filtrage collaboratif vous propose les franchises les plus compatibles.
+                    </p>
+                </div>
+                <div class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gray-200 -z-0"></div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="relative">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-accent-100 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-3xl font-bold text-accent-600">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Simulez vos projets</h3>
+                    <p class="text-gray-600">
+                        Testez différents scénarios avec notre prédicteur de performance basé sur XGBoost.
+                    </p>
+                </div>
+                <div class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gray-200 -z-0"></div>
+            </div>
+            
+            <!-- Step 4 -->
+            <div class="relative">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-3xl font-bold text-purple-600">4</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Décidez en confiance</h3>
+                    <p class="text-gray-600">
+                        Générez des rapports de viabilité pour convaincre votre banquier et finaliser votre projet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Detail Section -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Fonctionnalités clés</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Des outils puissants pour prendre les meilleures décisions d'investissement.
+            </p>
+        </div>
+        
+        <div class="space-y-16">
+            <!-- Feature 1 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <div class="flex items-center justify-center h-48 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl">
+                            <i class="fas fa-handshake text-white text-6xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="inline-flex items-center px-3 py-1 bg-primary-100 rounded-full text-sm text-primary-700 font-medium mb-4">
+                        <i class="fas fa-magic mr-2"></i>Matching AI
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Recommandations personnalisées</h3>
+                    <p class="text-gray-600 mb-6">
+                        Notre algorithme de filtrage collaboratif analyse votre profil et vos préférences pour vous proposer les franchises les plus adaptées à votre situation.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Score de compatibilité détaillé
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Explications des recommandations
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Mise à jour en temps réel
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-flex items-center px-3 py-1 bg-secondary-100 rounded-full text-sm text-secondary-700 font-medium mb-4">
+                        <i class="fas fa-chart-line mr-2"></i>Prédiction
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Simulation de rentabilité</h3>
+                    <p class="text-gray-600 mb-6">
+                        Notre algorithme XGBoost prédit votre chiffre d'affaires sur 2 ans en croisant votre investissement, votre localisation et les données historiques de la franchise.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Prédiction du CA année 1 & 2
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Estimation du seuil de rentabilité
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Analyse des facteurs clés
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <div class="flex items-center justify-center h-48 bg-gradient-to-br from-secondary-500 to-secondary-700 rounded-xl">
+                            <i class="fas fa-calculator text-white text-6xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <div class="flex items-center justify-center h-48 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl">
+                            <i class="fas fa-file-alt text-white text-6xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="inline-flex items-center px-3 py-1 bg-accent-100 rounded-full text-sm text-accent-700 font-medium mb-4">
+                        <i class="fas fa-file-invoice-dollar mr-2"></i>Rapports
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Rapports de viabilité</h3>
+                    <p class="text-gray-600 mb-6">
+                        Générez des rapports professionnels basés sur la donnée pour présenter votre projet à votre banquier et faciliter votre financement.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Rapport complet et détaillé
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Métriques bancaires (DSCR, LTV)
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            Export PDF professionnel
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Votre parcours en 2 semaines</h2>
+            <p class="text-xl text-gray-600">
+                De l'idée à la décision, notre plateforme accélère chaque étape.
+            </p>
+        </div>
+        
+        <div class="space-y-8">
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="font-bold text-primary-600">J1</span>
+                </div>
+                <div class="flex-1 pb-8 border-l-2 border-gray-200 ml-6 pl-6 -ml-6">
+                    <h4 class="font-bold text-gray-900">Création du profil</h4>
+                    <p class="text-gray-600">Inscription et complétion de votre profil d'investisseur (15 min)</p>
+                </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-secondary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="font-bold text-secondary-600">J2</span>
+                </div>
+                <div class="flex-1 pb-8 border-l-2 border-gray-200 ml-6 pl-6 -ml-6">
+                    <h4 class="font-bold text-gray-900">Découverte des matchs</h4>
+                    <p class="text-gray-600">Consultation des franchises recommandées par notre IA</p>
+                </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-accent-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="font-bold text-accent-600">J3-5</span>
+                </div>
+                <div class="flex-1 pb-8 border-l-2 border-gray-200 ml-6 pl-6 -ml-6">
+                    <h4 class="font-bold text-gray-900">Simulations et comparaisons</h4>
+                    <p class="text-gray-600">Test de différents scénarios et comparaison des franchises</p>
+                </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="font-bold text-purple-600">J6-10</span>
+                </div>
+                <div class="flex-1 pb-8 border-l-2 border-gray-200 ml-6 pl-6 -ml-6">
+                    <h4 class="font-bold text-gray-900">Approfondissement</h4>
+                    <p class="text-gray-600">Étude de marché locale et contacts avec les franchiseurs</p>
+                </div>
+            </div>
+            
+            <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span class="font-bold text-green-600">J11-14</span>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-gray-900">Décision et financement</h4>
+                    <p class="text-gray-600">Génération du rapport de viabilité et montage financier</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-secondary-600 to-secondary-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+            Prêt à commencer votre parcours ?
+        </h2>
+        <p class="text-xl text-secondary-100 mb-8">
+            Créez votre compte gratuit et recevez vos premières recommandations en quelques minutes.
+        </p>
+        <a href="{% url 'register' %}" class="inline-flex items-center px-8 py-4 bg-white text-secondary-700 rounded-xl font-semibold text-lg hover:bg-gray-100 transition">
+            <i class="fas fa-rocket mr-2"></i>
+            Commencer gratuitement
+        </a>
+    </div>
+</section>
+{% endblock %}

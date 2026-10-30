@@ -1,32 +1,275 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Inscription - RestoLocate</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Franchise Invest AI</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-light d-flex align-items-center" style="height: 100vh;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card shadow p-4 border-0" style="border-radius: 15px;">
-                    <h2 class="text-center text-primary fw-bold">Créer un compte</h2>
-                    <p class="text-center text-muted">Rejoignez la plateforme RestoLocate</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label class="form-label">{{ field.label }}</label>
-                                {{ field }} {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
-                            </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-success w-100 py-2">S'inscrire</button>
-                    </form>
-                    <div class="text-center mt-3">
-                        <a href="{% url 'login' %}" class="text-decoration-none">Déjà un compte ? Se connecter</a>
+<body class="font-sans text-gray-800 bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo -->
+                <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-brain text-white"></i>
                     </div>
+                    <span class="text-xl font-bold text-gray-900">
+                        Franchise<span class="text-primary-600">Invest</span>AI
+                    </span>
+                </a>
+
+                <!-- Menu center -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="{% url 'home' %}" class="text-gray-600 hover:text-primary-600">Accueil</a>
+                    <a href="{% url 'franchises_list' %}" class="text-gray-600 hover:text-primary-600">Franchises</a>
+                    <a href="{% url 'how_it_works' %}" class="text-gray-600 hover:text-primary-600">Comment ça marche</a>
+                    <a href="{% url 'pricing' %}" class="text-gray-600 hover:text-primary-600">Tarifs</a>
+                    <a href="{% url 'about' %}" class="text-gray-600 hover:text-primary-600">À propos</a>
+                </div>
+
+                <!-- Right buttons -->
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="{% url 'login' %}" class="text-gray-600 hover:text-primary-600 font-medium">
+                        Connexion
+                    </a>
+                    <a href="{% url 'signup' %}" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-semibold shadow-sm transition">
+                        S'inscrire
+                    </a>
+                </div>
+
+                <!-- Mobile button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
+            <div class="px-4 py-3 space-y-2">
+                <a href="{% url 'home' %}" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg">Accueil</a>
+                <a href="{% url 'franchises_list' %}" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg">Franchises</a>
+                <a href="{% url 'how_it_works' %}" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg">Comment ça marche</a>
+                <a href="{% url 'pricing' %}" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg">Tarifs</a>
+                <a href="{% url 'about' %}" class="block px-3 py-2 text-gray-600 hover:text-primary-600 hover:bg-gray-50 rounded-lg">À propos</a>
+                <div class="border-t border-gray-100 pt-2 mt-2">
+                    <a href="{% url 'login' %}" class="block px-3 py-2 text-gray-600 hover:text-primary-600">Connexion</a>
+                    <a href="{% url 'signup' %}" class="block px-3 py-2 text-primary-600 font-semibold">S'inscrire</a>
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-[calc(100vh-64px)] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="w-full max-w-md">
+            
+            <!-- Logo centré au-dessus du formulaire -->
+            <div class="flex justify-center mb-8">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-brain text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-gray-900">
+                        Franchise<span class="text-primary-600">Invest</span>AI
+                    </span>
+                </div>
+            </div>
+
+            <!-- Card d'inscription -->
+            <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">Créer un compte</h1>
+                    <p class="text-gray-500">Commencez votre parcours d'investisseur</p>
+                </div>
+
+                <form method="post" class="space-y-5">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                {{ field.label }}
+                            </label>
+                            
+                            {% if field.name == 'username' %}
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-user text-gray-400"></i>
+                                    </div>
+                                    <input type="{{ field.field.widget.input_type|default:'text' }}" 
+                                           name="{{ field.name }}" 
+                                           id="{{ field.id_for_label }}"
+                                           class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-primary-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                                           placeholder="Votre nom d'utilisateur"
+                                           {% if field.value %}value="{{ field.value }}"{% endif %}
+                                           required>
+                                </div>
+                            {% elif field.name == 'email' %}
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-envelope text-gray-400"></i>
+                                    </div>
+                                    <input type="email" 
+                                           name="{{ field.name }}" 
+                                           id="{{ field.id_for_label }}"
+                                           class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-primary-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                                           placeholder="jean@exemple.fr"
+                                           {% if field.value %}value="{{ field.value }}"{% endif %}
+                                           required>
+                                </div>
+                            {% elif field.name == 'password1' or field.name == 'password' %}
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-lock text-gray-400"></i>
+                                    </div>
+                                    <input type="password" 
+                                           name="{{ field.name }}" 
+                                           id="{{ field.id_for_label }}"
+                                           class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-primary-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                                           placeholder="Votre mot de passe"
+                                           required>
+                                </div>
+                                {% if field.name == 'password1' or field.name == 'password' %}
+                                    <p class="mt-1 text-xs text-gray-500">Minimum 8 caractères</p>
+                                {% endif %}
+                            {% elif field.name == 'password2' or field.name == 'password_confirmation' %}
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-lock text-gray-400"></i>
+                                    </div>
+                                    <input type="password" 
+                                           name="{{ field.name }}" 
+                                           id="{{ field.id_for_label }}"
+                                           class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-primary-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                                           placeholder="Confirmez votre mot de passe"
+                                           required>
+                                </div>
+                            {% elif field.field.widget.input_type == 'select' or 'select' in field.field.widget.template_name %}
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-user-tag text-gray-400"></i>
+                                    </div>
+                                    <select name="{{ field.name }}" 
+                                            id="{{ field.id_for_label }}"
+                                            class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-primary-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition appearance-none">
+                                        {% for choice in field.field.choices %}
+                                            <option value="{{ choice.0 }}" {% if field.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-pen text-gray-400"></i>
+                                    </div>
+                                    <input type="{{ field.field.widget.input_type|default:'text' }}" 
+                                           name="{{ field.name }}" 
+                                           id="{{ field.id_for_label }}"
+                                           class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl bg-primary-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                                           {% if field.value %}value="{{ field.value }}"{% endif %}
+                                           required>
+                                </div>
+                            {% endif %}
+                            
+                            {% if field.errors %}
+                                <div class="mt-1 text-sm text-red-600 flex items-center">
+                                    <i class="fas fa-exclamation-circle mr-1"></i>
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <!-- Conditions d'utilisation -->
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="terms" name="terms" type="checkbox" 
+                                   class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded cursor-pointer">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="terms" class="font-medium text-gray-600 cursor-pointer">
+                                J'accepte les <a href="#" class="text-primary-600 hover:text-primary-500">conditions d'utilisation</a> et la <a href="#" class="text-primary-600 hover:text-primary-500">politique de confidentialité</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Bouton d'inscription -->
+                    <button type="submit" 
+                            class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition duration-200">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Créer mon compte
+                    </button>
+                </form>
+
+                <!-- Lien de connexion -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        Déjà un compte ? 
+                        <a href="{% url 'login' %}" class="font-medium text-primary-600 hover:text-primary-500 transition">
+                            Se connecter
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Retour à l'accueil -->
+            <div class="mt-6 text-center">
+                <a href="{% url 'home' %}" class="text-sm text-gray-500 hover:text-gray-700 transition inline-flex items-center">
+                    <i class="fas fa-arrow-left mr-2 text-xs"></i>
+                    Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>

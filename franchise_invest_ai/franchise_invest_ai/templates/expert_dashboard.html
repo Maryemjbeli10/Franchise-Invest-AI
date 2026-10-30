@@ -1,23 +1,523 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Expert Dashboard - RestoLocate</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <nav class="navbar navbar-dark bg-primary px-4">
-        <span class="navbar-brand mb-0 h1">Franchise Invest AI - Banque/Consultant</span>
-        <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Déconnexion</a>
-    </nav>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Dashboard - Franchise Invest AI</title>
 
-    <div class="container mt-4">
-        <h3>Analyse Décisionnelle Power BI</h3>
-        <hr>
-        <div class="card shadow-sm border-0">
-            <div class="card-body p-0">
-<iframe title="FranchiseLabVFinal_Dashboards" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMWVmMDJjNjEtNzg1Ny00ZDJiLWIwZWEtNzU3N2RmZTBmZmRmIiwidCI6ImRiZDY2NjRkLTRlYjktNDZlYi05OWQ4LTVjNDNiYTE1M2M2MSIsImMiOjl9" frameborder="0" allowFullScreen="true"></iframe>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a' },
+                        secondary: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e',600:'#16a34a',700:'#15803d',800:'#166534',900:'#14532d' },
+                        accent: { 50:'#fefce8',100:'#fef9c3',200:'#fef08a',300:'#fde047',400:'#facc15',500:'#eab308',600:'#ca8a04',700:'#a16207',800:'#854d0e',900:'#713f12' },
+                        dark: { 800:'#1f2937',900:'#111827' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html, body { height: 100%; margin: 0; font-family: 'Inter', sans-serif; overflow: hidden; }
+        
+        .layout { display: flex; height: 100vh; }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        .sidebar.collapsed { width: 70px; }
+        .sidebar.collapsed .nav-text,
+        .sidebar.collapsed .logo-text,
+        .sidebar.collapsed .user-info { display: none; }
+        
+        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        
+        .nav-menu { flex: 1; padding: 16px 12px; overflow-y: auto; }
+        .nav-section { margin-bottom: 20px; }
+        .nav-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.5); padding: 0 12px; margin-bottom: 8px; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; cursor: pointer; transition: all 0.2s; margin-bottom: 4px; color: rgba(255,255,255,0.8); text-decoration: none; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.12); color: white; }
+        .nav-item i { width: 20px; text-align: center; font-size: 15px; }
+        .nav-item .badge { margin-left: auto; background: #22c55e; color: white; font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+        
+        .sidebar-footer { padding: 16px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .user-mini { display: flex; align-items: center; gap: 10px; }
+        .user-avatar { width: 36px; height: 36px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        
+        /* Main content */
+        .main { flex: 1; display: flex; flex-direction: column; background: #f8fafc; overflow: hidden; }
+        
+        /* Top bar */
+        .topbar {
+            height: 64px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            flex-shrink: 0;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 16px; }
+        .toggle-btn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid #e2e8f0; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #64748b; transition: all 0.2s; }
+        .toggle-btn:hover { background: #f1f5f9; color: #1e293b; }
+        
+        .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; }
+        .breadcrumb .active { color: #1e293b; font-weight: 600; }
+        
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+        .action-btn { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none; }
+        .btn-export { background: #fee2e2; color: #dc2626; }
+        .btn-export:hover { background: #fecaca; }
+        .btn-refresh { background: #eff6ff; color: #2563eb; }
+        .btn-refresh:hover { background: #dbeafe; }
+        .btn-fullscreen { background: #f0fdf4; color: #16a34a; }
+        .btn-fullscreen:hover { background: #dcfce7; }
+        
+        .status-pill { display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: #f0fdf4; border-radius: 20px; font-size: 12px; font-weight: 500; color: #16a34a; }
+        .status-pill::before { content: ''; width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        
+        /* Toolbar */
+        .toolbar {
+            height: 48px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .tool-btn { padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 500; color: #64748b; background: transparent; border: 1px solid transparent; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .tool-btn:hover { background: #f1f5f9; color: #1e293b; }
+        .tool-btn.active { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+        .tool-sep { width: 1px; height: 20px; background: #e2e8f0; margin: 0 4px; }
+        
+        /* Iframe container */
+        .iframe-wrap { flex: 1; position: relative; background: #f1f5f9; }
+        iframe { width: 100%; height: 100%; border: none; display: block; }
+        
+        /* Overlay loader */
+        .iframe-loader {
+            position: absolute; inset: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 10; transition: opacity 0.3s;
+        }
+        .iframe-loader.hidden { opacity: 0; pointer-events: none; }
+        .loader-ring { width: 48px; height: 48px; border: 3px solid #e2e8f0; border-top-color: #2563eb; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* PDF Modal */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: white; border-radius: 20px; padding: 32px; width: 420px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .modal-title { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+        .modal-desc { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+        .modal-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .modal-option { display: flex; align-items: center; gap: 12px; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
+        .modal-option:hover, .modal-option.selected { border-color: #2563eb; background: #eff6ff; }
+        .modal-option i { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .modal-option.pdf i { background: #fee2e2; color: #dc2626; }
+        .modal-option.excel i { background: #dcfce7; color: #16a34a; }
+        .modal-option.print i { background: #f1f5f9; color: #64748b; }
+        .modal-option-text { flex: 1; }
+        .modal-option-text strong { display: block; font-size: 14px; color: #1e293b; }
+        .modal-option-text span { font-size: 12px; color: #94a3b8; }
+        .modal-actions { display: flex; gap: 10px; }
+        .modal-btn { flex: 1; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+        .modal-btn.primary { background: #2563eb; color: white; }
+        .modal-btn.primary:hover { background: #1d4ed8; }
+        .modal-btn.secondary { background: #f1f5f9; color: #64748b; }
+        .modal-btn.secondary:hover { background: #e2e8f0; }
+        
+        /* Toast notification */
+        .toast-container { position: fixed; top: 80px; right: 24px; z-index: 200; display: flex; flex-direction: column; gap: 10px; }
+        .toast { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: white; border-radius: 12px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15); border-left: 4px solid; transform: translateX(120%); animation: slideIn 0.4s forwards; }
+        .toast.success { border-left-color: #22c55e; }
+        .toast.error { border-left-color: #ef4444; }
+        .toast.info { border-left-color: #3b82f6; }
+        @keyframes slideIn { to { transform: translateX(0); } }
+        .toast-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .toast.success .toast-icon { background: #f0fdf4; color: #16a34a; }
+        .toast.error .toast-icon { background: #fef2f2; color: #dc2626; }
+        .toast.info .toast-icon { background: #eff6ff; color: #2563eb; }
+        .toast-content { flex: 1; }
+        .toast-content strong { display: block; font-size: 13px; color: #1e293b; }
+        .toast-content span { font-size: 12px; color: #64748b; }
+        .toast-close { color: #94a3b8; cursor: pointer; padding: 4px; }
+        .toast-close:hover { color: #1e293b; }
+    </style>
+</head>
+<body>
+
+<div class="layout" id="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                <div class="logo-text">
+                    <div style="font-weight:700;font-size:16px;">Franchise<span style="opacity:0.8;">Invest</span>AI</div>
+                    <div style="font-size:10px;opacity:0.6;">Plateforme Expert</div>
+                </div>
             </div>
         </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <div class="nav-section-title">Analytics</div>
+                <a href="#" class="nav-item active" onclick="switchView('bi', this)">
+                    <i class="fas fa-chart-pie"></i>
+                    <span class="nav-text">Dashboard BI</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchView('kpis', this)">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="nav-text">KPIs Temps réel</span>
+                    <span class="badge">Live</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchView('predictions', this)">
+                    <i class="fas fa-brain"></i>
+                    <span class="nav-text">Modèles ML</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Données</div>
+                <a href="#" class="nav-item" onclick="switchView('franchises', this)">
+                    <i class="fas fa-store"></i>
+                    <span class="nav-text">Base Franchises</span>
+                    <span class="badge">6.7k</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchView('investors', this)">
+                    <i class="fas fa-users"></i>
+                    <span class="nav-text">Investisseurs</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchView('simulations', this)">
+                    <i class="fas fa-calculator"></i>
+                    <span class="nav-text">Simulations</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Outils</div>
+                <a href="#" class="nav-item" onclick="switchView('reports', this)">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="nav-text">Rapports</span>
+                </a>
+                <a href="#" class="nav-item" onclick="switchView('settings', this)">
+                    <i class="fas fa-cog"></i>
+                    <span class="nav-text">Paramètres</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-mini">
+                <div class="user-avatar">{{ user.first_name|first|default:user.username|first|upper }}</div>
+                <div class="user-info">
+                    <div style="font-weight:600;font-size:13px;">{{ user.first_name|default:user.username }}</div>
+                    <div style="font-size:11px;opacity:0.6;">Expert • Banque/Consultant</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="toggle-btn" onclick="toggleSidebar()" title="Réduire/Agrandir">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="breadcrumb">
+                    <span>Expert</span>
+                    <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+                    <span class="active">Dashboard BI Power BI</span>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="status-pill">Power BI Connecté</div>
+                
+                <button class="action-btn btn-refresh" onclick="refreshDashboard()" title="Rafraîchir">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Actualiser</span>
+                </button>
+                
+                <button class="action-btn btn-fullscreen" onclick="toggleFullscreen()" title="Plein écran">
+                    <i class="fas fa-expand"></i>
+                    <span>Plein écran</span>
+                </button>
+                
+                <button class="action-btn btn-export" onclick="openExportModal()" title="Exporter">
+                    <i class="fas fa-download"></i>
+                    <span>Exporter</span>
+                </button>
+
+                <a href="{% url 'logout' %}" class="action-btn" style="background:#f8fafc;color:#64748b;" title="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+            <button class="tool-btn active" onclick="setPeriod('7d', this)"><i class="fas fa-calendar-day"></i> 7 jours</button>
+            <button class="tool-btn" onclick="setPeriod('30d', this)"><i class="fas fa-calendar-week"></i> 30 jours</button>
+            <button class="tool-btn" onclick="setPeriod('90d', this)"><i class="fas fa-calendar-alt"></i> 3 mois</button>
+            <button class="tool-btn" onclick="setPeriod('1y', this)"><i class="fas fa-calendar"></i> 1 an</button>
+            <div class="tool-sep"></div>
+            <button class="tool-btn" onclick="setPeriod('custom', this)"><i class="fas fa-sliders-h"></i> Personnalisé</button>
+            <div style="margin-left:auto; display:flex; align-items:center; gap:8px; font-size:12px; color:#94a3b8;">
+                <i class="fas fa-clock"></i>
+                <span id="lastUpdate">Mis à jour à {% now "H:i" %}</span>
+            </div>
+        </div>
+
+        <!-- IFRAME -->
+        <div class="iframe-wrap">
+            <div class="iframe-loader" id="iframeLoader">
+                <div class="loader-ring"></div>
+                <p style="margin-top:16px; color:#64748b; font-size:14px;">Chargement du dashboard Power BI...</p>
+            </div>
+            <iframe 
+                id="powerbiFrame"
+                title="FranchiseLab Dashboard Expert" 
+                src="https://app.powerbi.com/view?r=eyJrIjoiMWVmMDJjNjEtNzg1Ny00ZDJiLWIwZWEtNzU3N2RmZTBmZmRmIiwidCI6ImRiZDY2NjRkLTRlYjktNDZlYi05OWQ4LTVjNDNiYTE1M2M2MSIsImMiOjl9" 
+                frameborder="0" 
+                allowFullScreen="true"
+                onload="hideLoader()">
+            </iframe>
+        </div>
+
+    </main>
+
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal">
+    <div class="modal-box">
+        <div class="modal-title"><i class="fas fa-download" style="color:#2563eb;margin-right:8px;"></i>Exporter le rapport</div>
+        <div class="modal-desc">Choisissez le format d'export pour votre analyse.</div>
+        
+        <div class="modal-options">
+            <div class="modal-option pdf selected" onclick="selectOption(this)">
+                <i class="fas fa-file-pdf"></i>
+                <div class="modal-option-text">
+                    <strong>Document PDF</strong>
+                    <span>Rapport complet avec graphiques</span>
+                </div>
+                <i class="fas fa-check-circle" style="color:#2563eb;"></i>
+            </div>
+            <div class="modal-option excel" onclick="selectOption(this)">
+                <i class="fas fa-file-excel"></i>
+                <div class="modal-option-text">
+                    <strong>Tableur Excel</strong>
+                    <span>Données brutes pour analyse</span>
+                </div>
+                <i class="far fa-circle" style="color:#cbd5e1;"></i>
+            </div>
+            <div class="modal-option print" onclick="selectOption(this)">
+                <i class="fas fa-print"></i>
+                <div class="modal-option-text">
+                    <strong>Imprimer</strong>
+                    <span>Version papier optimisée</span>
+                </div>
+                <i class="far fa-circle" style="color:#cbd5e1;"></i>
+            </div>
+        </div>
+        
+        <div class="modal-actions">
+            <button class="modal-btn secondary" onclick="closeExportModal()">Annuler</button>
+            <button class="modal-btn primary" onclick="confirmExport()">Exporter</button>
+        </div>
     </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// Toggle sidebar
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+// Hide iframe loader
+function hideLoader() {
+    document.getElementById('iframeLoader').classList.add('hidden');
+}
+
+// Refresh dashboard
+function refreshDashboard() {
+    const frame = document.getElementById('powerbiFrame');
+    frame.src = frame.src;
+    document.getElementById('iframeLoader').classList.remove('hidden');
+    showToast('info', 'Actualisation', 'Le dashboard est en cours de rechargement...');
+}
+
+// Toggle fullscreen
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// Period selector
+function setPeriod(period, btn) {
+    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const labels = { '7d': '7 jours', '30d': '30 jours', '90d': '3 mois', '1y': '1 an', 'custom': 'Personnalisé' };
+    showToast('info', 'Période modifiée', `Filtre appliqué : ${labels[period]}`);
+    
+    // Ici vous pouvez ajouter la logique pour filtrer le Power BI via postMessage
+}
+
+// Switch view (placeholder pour navigation future)
+function switchView(view, el) {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    showToast('info', 'Navigation', `Vue "${view}" sélectionnée (en développement)`);
+}
+
+// Export modal
+function openExportModal() {
+    document.getElementById('exportModal').classList.add('active');
+}
+
+function closeExportModal() {
+    document.getElementById('exportModal').classList.remove('active');
+}
+
+function selectOption(el) {
+    document.querySelectorAll('.modal-option').forEach(o => {
+        o.classList.remove('selected');
+        o.querySelector('.fa-check-circle, .fa-circle').className = 'far fa-circle';
+        o.querySelector('.fa-circle').style.color = '#cbd5e1';
+    });
+    el.classList.add('selected');
+    el.querySelector('.fa-circle').className = 'fas fa-check-circle';
+    el.querySelector('.fa-check-circle').style.color = '#2563eb';
+}
+
+function confirmExport() {
+    closeExportModal();
+    const selected = document.querySelector('.modal-option.selected');
+    const type = selected.classList.contains('pdf') ? 'PDF' : 
+                 selected.classList.contains('excel') ? 'Excel' : 'Impression';
+    
+    showToast('success', 'Export lancé', `Génération du rapport ${type} en cours...`);
+    
+    if (type === 'PDF') {
+        // Appel vers votre API Django
+        fetch('/api/export-pdf/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(r => r.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Rapport_Expert_${new Date().toISOString().slice(0,10)}.pdf`;
+            a.click();
+            showToast('success', 'Téléchargement', 'Votre rapport est prêt !');
+        });
+    } else if (type === 'Impression') {
+        window.print();
+    }
+}
+
+// Toast notifications
+function showToast(type, title, message) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = { success: 'fa-check', error: 'fa-exclamation', info: 'fa-info' };
+    
+    toast.innerHTML = `
+        <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-content">
+            <strong>${title}</strong>
+            <span>${message}</span>
+        </div>
+        <div class="toast-close" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></div>
+    `;
+    
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 5000);
+}
+
+// CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Auto-hide loader après timeout
+setTimeout(() => {
+    const loader = document.getElementById('iframeLoader');
+    if (!loader.classList.contains('hidden')) {
+        loader.classList.add('hidden');
+    }
+}, 15000);
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'F11') {
+        e.preventDefault();
+        toggleFullscreen();
+    }
+    if (e.ctrlKey && e.key === 'r') {
+        e.preventDefault();
+        refreshDashboard();
+    }
+    if (e.ctrlKey && e.key === 'e') {
+        e.preventDefault();
+        openExportModal();
+    }
+});
+</script>
+
 </body>
 </html>
