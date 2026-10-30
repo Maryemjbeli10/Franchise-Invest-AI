@@ -1,10 +1,21 @@
+# Environnements virtuels
 env/
 myenv/
 venv/
+
+# Python
 __pycache__/
 *.pyc
+
+# VS Code
 .vscode/
+
+# MLflow
 mlruns/
 mlflow.db
+
+# Variables d'environnement
 .env
-data.xlsx   
+
+# Dataset (si confidentiel)
+data.xlsx
